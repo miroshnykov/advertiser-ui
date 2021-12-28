@@ -1,6 +1,6 @@
 import React from 'react';
-import { Offer } from '../../common/interfaces/offer.interface';
-import { useGetOffers} from '../../hooks/offers/useGetOffers';
+import {Offer} from '../../common/interfaces/offer.interface';
+import {useGetOffers} from '../../hooks/offers/useGetOffers';
 import OffersGrid from '../../components/offers/offers.component';
 
 
