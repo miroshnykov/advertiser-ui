@@ -12,17 +12,17 @@ import './app.component.css'
 const App: React.FC = () => {
   return (
     <ApolloProvider client={client}>
-        <Router>
-          <Header/>
-          <Switch>
-            <Route path="/offers">
-              <Offers/>
-            </Route>
-            <Route path="/">
-              <Home/>
-            </Route>
-          </Switch>
-        </Router>
+      <Router>
+        <Header/>
+        <Switch>
+          <Route path="/offers">
+            <Offers/>
+          </Route>
+          <Route path="/">
+            <Home/>
+          </Route>
+        </Switch>
+      </Router>
     </ApolloProvider>
   )
 }
