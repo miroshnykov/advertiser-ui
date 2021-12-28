@@ -12,6 +12,9 @@ const Header: React.FC = () => {
           <li>
             <NavLink to={"/offers"}>offers</NavLink>
           </li>
+          <li>
+            <NavLink to={"/dashboard"}>dashboard</NavLink>
+          </li>
         </ul>
       </nav>
     </header>

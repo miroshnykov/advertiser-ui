@@ -1,18 +1,36 @@
-import React from 'react';
-import {Offer} from '../../common/interfaces/offer.interface';
-import {useGetOffers} from '../../hooks/offers/useGetOffers';
-import OffersGrid from '../../components/offers/offers.component';
+import React from "react";
+import {makeStyles} from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary
+  }
+}));
 
-const Home: React.FC = () => {
-  // const offers: []|any[] = useGetOffers()
-  // const offers: []|any[]
-
+function GridItem({classes}: any) {
   return (
-    <div className="home">
-      {/*<OffersGrid offers={offers || []}/>*/}
-    </div>
+    <Grid item xs={12} sm={6} md={3}>
+      <Paper className={classes.paper}>item</Paper>
+    </Grid>
   );
 }
 
-export default Home;
+
+export default function AutoGrid() {
+  const classes = useStyles();
+  return (
+    <div>
+      <h3> Ex 4: Responsive Material UI Grid </h3>
+      <Grid container spacing={1}>
+        <GridItem classes={classes}/>
+        <GridItem classes={classes}/>
+        <GridItem classes={classes}/>
+        <GridItem classes={classes}/>
+      </Grid>
+    </div>
+  );
+}
