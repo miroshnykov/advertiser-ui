@@ -1,0 +1,129 @@
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+type Query {
+  currentUser: User
+  getOffer(id: ID!): Offer
+  getOffers: [Offer!]
+}
+
+"""The User model"""
+type User {
+  id: ID!
+  name: String!
+}
+
+type Offer {
+  id: Int!
+  name: String!
+  status: String!
+  conversion_type: String!
+  sfl_vertical_id: Float!
+  descriptions: String!
+  currency_id: Float!
+  offer_id_redirect: Float!
+  is_cpm_option_enabled: Boolean!
+  payin: Float!
+  payout_percent: [Float!]
+  restriction: String!
+  date_added: Float!
+  date_updated: String!
+  start_date: Float
+  end_date: Float
+  type: String!
+  step: Float!
+  use_start_end_date: Boolean!
+  advertiser_manager: String!
+  verticals: [Vertical!]!
+  currencies: [Currency!]!
+  geoRules: String
+  landings: [Landing!]
+  customLandings: [CustomLandingsOutput!]!
+  caps: OfferCap!
+  token: String!
+  customPayin: [OfferCustomPayin!]!
+}
+
+type Vertical {
+  id: Int!
+  name: String!
+}
+
+type Currency {
+  id: Int!
+  symbol: String!
+  abbr: String!
+}
+
+type Landing {
+  id: Int!
+  name: String!
+  url: String!
+  params: String!
+  isDefault: Boolean!
+  status: String!
+  date_added: Float!
+  date_updated: String!
+}
+
+type CustomLandingsOutput {
+  id: Int
+  pos: Float!
+  country: String!
+  name: String!
+  url: String!
+}
+
+type OfferCap {
+  enabled: Float!
+  clicks_day: Float!
+  clicks_week: Float!
+  clicks_month: Float!
+  clicks_redirect_offer_id: Float!
+  clicks_redirect_offer_use_default: Boolean!
+  sales_day: Float!
+  sales_week: Float!
+  sales_month: Float!
+  sales_redirect_offer_id: Float!
+  sales_redirect_offer_use_default: Boolean!
+  start_date: Float
+  end_date: Float
+  use_start_end_date: Boolean!
+}
+
+type OfferCustomPayin {
+  id: Int!
+  geo: String!
+  payin: Float!
+}
