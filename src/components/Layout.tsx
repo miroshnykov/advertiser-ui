@@ -16,8 +16,7 @@ import MuiDrawer from "@mui/material/Drawer";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import {mainListItems} from "./listItems";
-import MenuItemsList from "./MenuItemsList";
+import {mainListItems} from "./ListItems";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -148,11 +147,7 @@ const Layout: React.FC<Props> = ({children}) => {
                 <ChevronLeftIcon/>
               </IconButton>
             </Toolbar>
-            {/*<Divider />*/}
-            {/*<MenuItemsList />*/}
             <List>{mainListItems}</List>
-            {/*<Divider />*/}
-            {/*<List>{secondaryListItems}</List>*/}
           </Drawer>
           <main className={classes.main}>{children}</main>
         </div>
