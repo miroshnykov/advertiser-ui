@@ -3,6 +3,7 @@ import {Offer} from '../../common/interfaces/offer.interface';
 import {useGetOffers} from '../../hooks/offers/useGetOffers';
 
 import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
+import Divider from "@mui/material/Divider";
 
 const columns: GridColDef[] = [
   {field: 'id', headerName: 'ID', width: 90},
@@ -36,16 +37,17 @@ const columns: GridColDef[] = [
   },
 ];
 
-export default function DataGridDemo() {
+export default function OffersData() {
 
   const offers: [] | any[] = useGetOffers()
   return (
-    <div style={{height: 400, width: '100%'}}>
+    <div style={{height: 800, width: '100%'}}>
+      <h2 style={{marginTop:70 }}> OFFERS </h2>
       <DataGrid
         rows={offers}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection
         disableSelectionOnClick
       />

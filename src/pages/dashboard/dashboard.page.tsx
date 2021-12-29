@@ -1,8 +1,9 @@
-import * as React from 'react';
-import Dashboard from '../../components/dashboard/Dashboard';
-
-export default function Dash() {
+import React from "react";
+export default function Dashboard() {
   return (
-      <Dashboard />
+    <div style={{height: 860, width: '100%'}}>
+      <h2 style={{marginTop:70 }}> DashboardPage </h2>
+
+    </div>
   );
 }
