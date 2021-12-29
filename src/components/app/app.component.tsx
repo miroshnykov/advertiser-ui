@@ -13,24 +13,33 @@ import SignUp from '../../pages/sign-up/signUp.page';
 import Templates from '../../pages/dashboard/dashboard.page';
 import './app.component.css'
 import Dashboard from "../dashboard/Dashboard";
+import Layout from "../Layout";
 
 const App: React.FC = () => {
   return (
     <ApolloProvider client={client}>
       <Router>
         <Switch>
-          <Route path="/offers">
-            <Offers/>
-          </Route>
+
           <Route path="/signUp">
             <SignUp/>
           </Route>
+
           <Route path="/signIn">
             <SignIn/>
           </Route>
-          <Route path="/">
-            <Dash/>
-          </Route>
+
+          <Layout>
+            <Route path="/offers">
+              <Offers/>
+            </Route>
+          </Layout>
+
+            <Route path="/">
+              <Dash/>
+            </Route>
+
+
         </Switch>
       </Router>
     </ApolloProvider>
