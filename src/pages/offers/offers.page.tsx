@@ -40,12 +40,12 @@ export default function DataGridDemo() {
 
   const offers: [] | any[] = useGetOffers()
   return (
-    <div style={{height: 400, width: '100%'}}>
+    <div style={{height: 860, width: '100%'}}>
       <DataGrid
         rows={offers}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={15}
+        rowsPerPageOptions={[15]}
         checkboxSelection
         disableSelectionOnClick
       />

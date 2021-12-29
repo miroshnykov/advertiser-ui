@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { DRAWER_LIST } from "../constants/menu";
 import MenuItem from "./MenuItem";
 import Divider from "@mui/material/Divider";
-import {mainListItems} from "./dashboard/listItems";
+import {mainListItems} from "./listItems";
 import * as React from "react";
 
 const useStyles = makeStyles(() => ({
