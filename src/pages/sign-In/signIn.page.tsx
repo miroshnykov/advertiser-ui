@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,13 +12,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import {LOGIN_USER} from "../../graphql/User";
+import {useMutation} from '@apollo/react-hooks';
+import {useHistory } from "react-router-dom";
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="">
+        Website
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -29,6 +31,19 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
+
+  const [successful, setSuccessful] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+
+  const [login] = useMutation(LOGIN_USER);
+  const history = useHistory();
+  function handleClick() {
+    history.push("/offers");
+    // setTimeout(() => {
+    //   if (!isLogged) return
+    //   history.push("/offers");
+    // }, 1000);
+  }
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -37,6 +52,31 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    login({
+      variables: {
+        email: data.get('email'),
+        password: data.get('password')
+      }
+    }).then((response: any) => {
+      console.log('login user:', response);
+      localStorage.setItem("token", response.data.login.accessToken);
+      setMessage('Login Success');
+      setSuccessful(true);
+      // history.push("/offers");
+      window.location.href ="/offers"
+
+    }).catch((error: any) => {
+      console.error('added user error:', error)
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      setMessage(resMessage);
+      setSuccessful(false);
+    })
   };
 
   return (
@@ -57,7 +97,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit}  noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -92,18 +132,26 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signUp" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
+        {message && (
+          <div className="form-group">
+            <div style={{color:"red" }} className="alert alert-danger" role="alert">
+              {message}
+            </div>
+          </div>
+        )}
+
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>

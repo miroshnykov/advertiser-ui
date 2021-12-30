@@ -16,7 +16,10 @@ import MuiDrawer from "@mui/material/Drawer";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
+import Avatar from '@mui/material/Avatar';
 import {mainListItems} from "./ListItems";
+import Button from "@mui/material/Button";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -90,11 +93,17 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 
 const Layout: React.FC<Props> = ({children}) => {
+  const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const logout = () => {
+    localStorage.removeItem("token");
+    history.push('/signIn');
+  }
+  const token = localStorage.getItem("token");
   return (
     <DrawerContextProvider>
       <div className={classes.root}>
@@ -130,6 +139,18 @@ const Layout: React.FC<Props> = ({children}) => {
                 <NotificationsIcon/>
               </Badge>
             </IconButton>
+            <IconButton color="primary" aria-label="upload picture" component="span">
+              <Avatar src="https://www.w3schools.com/howto/img_avatar.png"/>
+            </IconButton>
+            <Toolbar>
+              {!token ? (
+                <Button color="inherit">Login</Button>
+              ) : (
+                <Button onClick={logout} color="inherit">
+                  Logout
+                </Button>
+              )}
+            </Toolbar>
           </Toolbar>
         </AppBar>
 
