@@ -4,8 +4,11 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.2.5",
+    "@apollo/react-hooks": "^4.0.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^5.0.0-beta.5",
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.6",
@@ -28,18 +31,16 @@
     "react-scripts": "^5.0.0",
     "recharts": "^2.1.8",
     "typescript": "^4.5.4",
-    "web-vitals": "^2.1.2",
-    "@material-ui/core": "^4.11.2",
-    "@material-ui/icons": "^4.11.2"
+    "web-vitals": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "download-schema": "npx apollo client:download-schema --endpoint=http://localhost:4009/graphql schema.graphql",
     "generate-types": "npx apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript",
-    "gsync": "npm run download-schema && npm run generate-types",
-    "download-schema": "npx apollo client:download-schema --endpoint=http://localhost:4009/graphql schema.graphql"
+    "gsync": "npm run download-schema && npm run generate-types"
   },
   "eslintConfig": {
     "extends": [
