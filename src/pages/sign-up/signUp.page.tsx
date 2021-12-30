@@ -13,25 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useHistory} from "react-router-dom";
-
-import gql from 'graphql-tag';
 import {useMutation} from '@apollo/react-hooks';
-
-const ADD_USER = gql`
-    mutation register($email: String!, $name:String!, $password:String!, $resetPassword:String!){
-        register(
-            data: {
-                email: $email,
-                name: $name,
-                password: $password,
-                repeatPassword: $resetPassword
-            }
-        ) {
-            id
-            name
-        }
-    }
-`
+import {ADD_USER} from "../../graphql/AddUser";
 
 const theme = createTheme();
 

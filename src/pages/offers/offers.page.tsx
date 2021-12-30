@@ -1,9 +1,10 @@
 import React from 'react';
 import {Offer} from '../../common/interfaces/offer.interface';
-import {useGetOffers} from '../../hooks/offers/useGetOffers';
 
 import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
 import Divider from "@mui/material/Divider";
+import {useQuery} from "@apollo/client";
+import {GET_OFFERS} from "../../graphql/Offer";
 
 const columns: GridColDef[] = [
   {field: 'id', headerName: 'ID', width: 90},
@@ -38,8 +39,9 @@ const columns: GridColDef[] = [
 ];
 
 export default function OffersData() {
-
-  const offers: [] | any[] = useGetOffers()
+  const {data} = useQuery(GET_OFFERS);
+  console.log('data offers:', data)
+  const offers: [] | any[] = data?.getOffers;
   return (
     <div style={{height: 800, width: '100%'}}>
       <h2 style={{marginTop:70 }}> OFFERS </h2>
