@@ -1,6 +1,28 @@
-import {gql, useQuery} from "@apollo/client";
+import {gql} from "@apollo/client";
 
-const GET_OFFER = gql`query Offer ($id: ID!) {
+export const GET_OFFERS = gql`
+    query offer {
+        getOffers {
+            id
+            name
+            descriptions
+            payin
+            conversion_type
+            is_cpm_option_enabled
+            offer_id_redirect
+            currency_id
+            sfl_vertical_id
+            step
+            status
+            currencies {
+                id
+                symbol
+            }
+        }
+    }
+`
+
+export const GET_OFFER = gql`query Offer ($id: ID!) {
     getOffer(id: $id) {
         id
         name
@@ -64,12 +86,3 @@ const GET_OFFER = gql`query Offer ($id: ID!) {
     }
 }
 `
-
-
-export const useGetOffer = (id: number): any => {
-  const {data} = useQuery(GET_OFFER, {
-    variables: {id},
-  });
-  console.log('data offer:', data)
-  return data?.getOffer;
-}
