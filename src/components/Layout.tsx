@@ -100,10 +100,10 @@ const Layout: React.FC<Props> = ({children}) => {
     setOpen(!open);
   };
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
     history.push('/signIn');
   }
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("accessToken");
   return (
     <DrawerContextProvider>
       <div className={classes.root}>

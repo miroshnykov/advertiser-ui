@@ -41,7 +41,7 @@ const columns: GridColDef[] = [
 export default function OffersData() {
   const {data} = useQuery(GET_OFFERS);
   console.log('data offers:', data)
-  const offers: [] | any[] = data?.getOffers;
+  const offers: [] | any[] = data?.getOffers||[];
   return (
     <div style={{height: 800, width: '100%'}}>
       <h2 style={{marginTop:70 }}> OFFERS </h2>

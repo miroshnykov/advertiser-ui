@@ -10,7 +10,7 @@ import Dashboard from '../pages/dashboard/dashboard.page';
 import Layout from "./Layout";
 
 const App: React.FC = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("accessToken");
   if (token) {
     return (
       <ApolloProvider client={client}>

@@ -15,6 +15,7 @@ import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useHistory} from "react-router-dom";
 import {useMutation} from '@apollo/react-hooks';
 import {ADD_USER} from "../../graphql/User";
+import { useApolloClient } from '@apollo/client';
 
 const theme = createTheme();
 

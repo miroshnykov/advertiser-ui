@@ -29,3 +29,11 @@ export const ADD_USER = gql`
         }
     }
 `
+
+export const REFRESH_TOKEN = gql`
+    mutation refresh($refresh_token: String!){
+            refresh(refresh_token:$refresh_token){
+                accessToken
+        }
+    }
+`

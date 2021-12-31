@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {LOGIN_USER} from "../../graphql/User";
 import {useMutation} from '@apollo/react-hooks';
 import {useHistory } from "react-router-dom";
+import { useApolloClient } from '@apollo/client';
+
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -59,12 +61,23 @@ export default function SignIn() {
       }
     }).then((response: any) => {
       console.log('login user:', response);
-      localStorage.setItem("token", response.data.login.accessToken);
+      localStorage.setItem("accessToken", response.data.login.accessToken);
+      localStorage.setItem("refreshToken", response.data.login.refreshToken);
       setMessage('Login Success');
       setSuccessful(true);
       // history.push("/offers");
       window.location.href ="/offers"
-
+      // const client = useApolloClient();
+      //
+      // client.writeQuery({
+      //   LOGIN_USER,
+      //   data: ,
+      // });
+      // setTimeout(() => {
+      //   console.log(
+      //     'waite'
+      //   )
+      // }, 10000);
     }).catch((error: any) => {
       console.error('added user error:', error)
       const resMessage =
