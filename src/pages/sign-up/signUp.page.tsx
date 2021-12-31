@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +14,8 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useHistory} from "react-router-dom";
 import {useMutation} from '@apollo/react-hooks';
-import {ADD_USER} from "../../graphql/AddUser";
+import {ADD_USER} from "../../graphql/User";
+import { useApolloClient } from '@apollo/client';
 
 const theme = createTheme();
 
@@ -22,6 +23,8 @@ export default function SignUp() {
 
   const [register] = useMutation(ADD_USER);
   const history = useHistory();
+  const [successful, setSuccessful] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -37,8 +40,17 @@ export default function SignUp() {
     }).then((r: any) => {
       console.log('added user:', r);
       history.push('/signIn');
-    }).catch((e: any) => {
-      console.error('added user error:', e)
+    }).catch((error: any) => {
+      console.error('added user error:', error)
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      setMessage(resMessage);
+      setSuccessful(false);
     })
   };
 
@@ -121,13 +133,20 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signIn" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
+        {message && (
+          <div className="form-group">
+            <div style={{color:"red" }} className="alert alert-danger" role="alert">
+              {message}
+            </div>
+          </div>
+        )}
       </Container>
     </ThemeProvider>
   );

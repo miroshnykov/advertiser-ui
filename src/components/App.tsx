@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import {ApolloProvider} from "@apollo/client";
 import client from "../common/apollo-client";
 import Offers from '../pages/offers/offers.page';
@@ -10,36 +10,59 @@ import Dashboard from '../pages/dashboard/dashboard.page';
 import Layout from "./Layout";
 
 const App: React.FC = () => {
-  return (
-    <ApolloProvider client={client}>
-      <Router>
-        <Switch>
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    return (
+      <ApolloProvider client={client}>
+        <Router>
+          <Switch>
 
-          <Route path="/signUp">
-            <SignUp/>
-          </Route>
-
-          <Route path="/signIn">
-            <SignIn/>
-          </Route>
-
-          <Layout>
-            <Route path="/offers">
-              <Offers/>
+            <Route path="/signUp">
+              <SignUp/>
             </Route>
-            <Route path="/dashboard">
+
+
+            <Route path="/signIn">
+              <SignIn/>
+            </Route>
+
+            <Layout>
+              <Route path="/offers">
+                <Offers/>
+              </Route>
+              <Route path="/dashboard">
+                <Dashboard/>
+              </Route>
+
+            </Layout>
+            <Route path="/">
               <Dashboard/>
             </Route>
 
-          </Layout>
-          <Route path="/">
-            <Dashboard/>
-          </Route>
+          </Switch>
+        </Router>
+      </ApolloProvider>
+    )
+  } else {
+    return (
+      <ApolloProvider client={client}>
+        <Router>
+          <Switch>
+            <Route path="/signUp">
+              <SignUp/>
+            </Route>
 
-        </Switch>
-      </Router>
-    </ApolloProvider>
-  )
+            <Route path="/signIn">
+              <SignIn/>
+            </Route>
+            <Redirect to="/signIn"/>
+
+          </Switch>
+        </Router>
+      </ApolloProvider>
+    )
+  }
+
 }
 
 export default App
