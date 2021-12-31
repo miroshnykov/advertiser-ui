@@ -6,8 +6,9 @@ import {auth} from "../utils/auth";
 console.log('process.env.APP_GRAPHQL_URL:', process.env.APP_GRAPHQL_URL)
 //const api = `${process.env.APP_GRAPHQL_URL}` || `http://localhost:4009`
 const api = `http://localhost:4009`
-console.log('api:', api)
+
 const graphqlUrl = `${api}/graphql`
+console.log('graphqlUrl:', graphqlUrl)
 
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -20,7 +21,7 @@ const httpLink = createHttpLink({
 
 const authLink =  setContext(async (_, { headers }) => {
 
-  const tokenNewFunc = await auth()
+  const tokenNewFunc = await auth(graphqlUrl)
   const newToken = await tokenNewFunc()
   return {
     headers: {

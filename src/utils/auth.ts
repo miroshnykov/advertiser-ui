@@ -18,7 +18,7 @@ export const logout = (): void => {
   localStorage.removeItem('accessToken');
 };
 
-export const auth = () => {
+export const auth = (apiUrl: string) => {
   return async (): Promise<string | null> => {
     storageToken = storageToken || localStorage.getItem('accessToken');
     let refreshToken = localStorage.getItem('refreshToken');
@@ -40,7 +40,7 @@ export const auth = () => {
 
           const config = {
             method: 'post',
-            url: 'http://localhost:4009/graphql',
+            url: `${apiUrl}`,
             headers: {
               'Content-Type': 'application/json'
             },
