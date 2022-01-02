@@ -75,6 +75,7 @@ function stringToColor(string: string) {
 }
 
 function stringAvatar(name: string) {
+  if (!name) return
   return {
     sx: {
       bgcolor: stringToColor(name),
@@ -140,6 +141,7 @@ const Layout: React.FC<Props> = ({children}) => {
 
   const {data} = useQuery(GET_CURRENT_USER);
   const currentUser = data?.currentUser || {}
+  console.log('currentUser:', currentUser)
   const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
