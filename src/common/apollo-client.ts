@@ -9,17 +9,18 @@ const api = `http://localhost:4009`
 
 const graphqlUrl = `${api}/graphql`
 console.log('graphqlUrl:', graphqlUrl)
-
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+// import { InMemoryCache } from 'apollo-cache-inmemory';
+import {ApolloClient, InMemoryCache, createHttpLink, NormalizedCacheObject} from '@apollo/client';
+import {setContext} from '@apollo/client/link/context';
 import {useMutation} from "@apollo/react-hooks";
 import {REFRESH_TOKEN} from "../graphql/User";
+import {resolvers} from './GraphQL/Resolvers';
 
 const httpLink = createHttpLink({
   uri: graphqlUrl,
 });
 
-const authLink =  setContext(async (_, { headers }) => {
+const authLink = setContext(async (_, {headers}) => {
 
   const tokenNewFunc = await auth(graphqlUrl)
   const newToken = await tokenNewFunc()
@@ -31,9 +32,25 @@ const authLink =  setContext(async (_, { headers }) => {
   }
 });
 
-const client = new ApolloClient({
+const cache = new InMemoryCache()
+
+const client = new ApolloClient<NormalizedCacheObject>({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache,
+  resolvers: {
+    Mutation: {
+      updateNetworkStatus: (_, {isConnected}, {cache}) => {
+        cache.writeData({data: {isConnected}});
+        return null;
+      }
+    }
+  },
 });
+
+// cache.writeData({
+//   data: {
+//     user: []
+//   },
+// });
 
 export default client
