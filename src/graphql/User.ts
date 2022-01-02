@@ -1,5 +1,15 @@
 import gql from 'graphql-tag';
 
+export const GET_CURRENT_USER = gql`
+    query currentUser{
+        currentUser{
+            id
+            name
+            email
+        }
+    }
+`
+
 export const LOGIN_USER = gql`
     mutation login($email: String!, $password:String!){
         login(email: $email, password: $password){
@@ -32,8 +42,8 @@ export const ADD_USER = gql`
 
 export const REFRESH_TOKEN = gql`
     mutation refresh($refresh_token: String!){
-            refresh(refresh_token:$refresh_token){
-                accessToken
+        refresh(refresh_token:$refresh_token){
+            accessToken
         }
     }
 `

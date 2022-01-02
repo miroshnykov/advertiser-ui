@@ -15,7 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {LOGIN_USER} from "../../graphql/User";
 import {useMutation} from '@apollo/react-hooks';
 import {useHistory } from "react-router-dom";
-import { useApolloClient } from '@apollo/client';
+// import { useApolloClient } from '@apollo/client';
+import { useApolloClient } from "@apollo/react-hooks";
+import gql from 'graphql-tag';
 
 function Copyright(props: any) {
   return (
@@ -39,6 +41,7 @@ export default function SignIn() {
 
   const [login] = useMutation(LOGIN_USER);
   const history = useHistory();
+  const client = useApolloClient();
   function handleClick() {
     history.push("/offers");
     // setTimeout(() => {
@@ -67,8 +70,32 @@ export default function SignIn() {
       setSuccessful(true);
       // history.push("/offers");
       window.location.href ="/offers"
-      // const client = useApolloClient();
-      //
+      // client.writeQuery({
+      //   LOGIN_USER,
+      //   data: ,
+      // });
+      client.writeQuery({
+        query: gql`
+            query WriteTodo($id: Int!) {
+                todo(id: $id) {
+                    id
+                    text
+                    completed
+                }
+            }`,
+        data: { // Contains the data to write
+          todo: {
+            __typename: 'Todo',
+            id: 5,
+            text: 'Buy grapes 🍇',
+            completed: false
+          },
+        },
+        variables: {
+          id: 5
+        }
+      });
+
       // client.writeQuery({
       //   LOGIN_USER,
       //   data: ,

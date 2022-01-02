@@ -20,6 +20,13 @@ import Avatar from '@mui/material/Avatar';
 import {mainListItems} from "./ListItems";
 import Button from "@mui/material/Button";
 import {useHistory} from "react-router-dom";
+import {useQuery} from "@apollo/client";
+import {GET_OFFERS} from "../graphql/Offer";
+import {GET_CURRENT_USER} from "../graphql/User";
+import {deepPurple} from '@mui/material/colors'
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -45,6 +52,36 @@ const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
+}
+
+function stringToColor(string: string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = '#';
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.substr(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name: string) {
+  if (!name) return
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  };
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -93,6 +130,18 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 
 const Layout: React.FC<Props> = ({children}) => {
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const {data} = useQuery(GET_CURRENT_USER);
+  const currentUser = data?.currentUser || {}
+  console.log('currentUser:', currentUser)
   const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -134,21 +183,43 @@ const Layout: React.FC<Props> = ({children}) => {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon/>
-              </Badge>
-            </IconButton>
-            <IconButton color="primary" aria-label="upload picture" component="span">
-              <Avatar src="https://www.w3schools.com/howto/img_avatar.png"/>
-            </IconButton>
+            {/*<IconButton color="inherit">*/}
+            {/*  <Badge badgeContent={4} color="secondary">*/}
+            {/*    <NotificationsIcon/>*/}
+            {/*  </Badge>*/}
+            {/*</IconButton>*/}
+            <div>
+              <IconButton
+                onClick={handleMenu}
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
+                <Avatar {...stringAvatar(`${currentUser && currentUser?.name || ''}`)}  />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile({currentUser?.name})</MenuItem>
+                <MenuItem onClick={handleClose}>My account({currentUser?.email})</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </Menu>
+            </div>
             <Toolbar>
-              {!token ? (
+              {!token && (
                 <Button color="inherit">Login</Button>
-              ) : (
-                <Button onClick={logout} color="inherit">
-                  Logout
-                </Button>
               )}
             </Toolbar>
           </Toolbar>
