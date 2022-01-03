@@ -7,6 +7,7 @@ import Offers from '../pages/offers/offers.page';
 import SignIn from '../pages/sign-In/signIn.page';
 import SignUp from '../pages/sign-up/signUp.page';
 import Dashboard from '../pages/dashboard/dashboard.page';
+import Profile from '../pages/profile/profile.page';
 import Layout from "./Layout";
 
 const App: React.FC = () => {
@@ -33,7 +34,9 @@ const App: React.FC = () => {
               <Route path="/dashboard">
                 <Dashboard/>
               </Route>
-
+              <Route path="/profile">
+                <Profile/>
+              </Route>
             </Layout>
             <Route path="/">
               <Dashboard/>

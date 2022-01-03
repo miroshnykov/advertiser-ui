@@ -131,9 +131,11 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 const Layout: React.FC<Props> = ({children}) => {
 
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClose = () => {
     setAnchorEl(null);
+    history.push('/profile');
   };
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -142,7 +144,6 @@ const Layout: React.FC<Props> = ({children}) => {
   const {data} = useQuery(GET_CURRENT_USER);
   const currentUser = data?.currentUser || {}
   console.log('currentUser:', currentUser)
-  const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {

@@ -15,8 +15,8 @@ export const DRAWER_LIST = [
     Icon: LocalOfferIcon,
   },
   {
-    route: ROUTES.customers,
-    literal: 'Customers',
+    route: ROUTES.profile,
+    literal: 'Profile',
     Icon: ShoppingCartIcon,
   }
 ];
