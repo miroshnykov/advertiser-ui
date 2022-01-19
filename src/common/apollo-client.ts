@@ -1,7 +1,7 @@
 import {auth} from "../utils/auth";
-// import * as dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
-// dotenv.config();
+dotenv.config();
 
 console.log('process.env.APP_GRAPHQL_URL:', process.env.APP_GRAPHQL_URL)
 //const api = `${process.env.APP_GRAPHQL_URL}` || `http://localhost:4009`

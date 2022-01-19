@@ -46,7 +46,7 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    renderCount.current ++
+    renderCount.current++
   })
   return (
     <div style={{height: 860, width: '100%'}}>
